@@ -2,7 +2,6 @@
 
 > **⏱️ Duration:** 48 hours
 > **🎯 Purpose:** Build a working prototype that automates vehicle condition inspections for rental businesses (cars, scooters, boats, equipment).
-> **👥 Format:** Solo or team participation.
 
 ---
 
