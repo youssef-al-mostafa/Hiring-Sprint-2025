@@ -1,103 +1,75 @@
-# 🚗 AI-Powered Vehicle Condition Assessment — Hiring Sprint
 
-## 🧩 Overview
+# React + TypeScript + Vite
 
-Build a working prototype for **AI-powered vehicle condition assessment**. The system should allow users to capture/upload vehicle images at pick-up and return, automatically detect damages, and display a report.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-The solution can be a **web** or **mobile** app. Use of pretrained AI/ML models or APIs is allowed.
+Currently, two official plugins are available:
 
----
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## 🎯 Goal / Business Requirements
+## React Compiler
 
-**Business Goal:** Automate and simplify vehicle condition inspections for rental businesses (cars, scooters, boats, equipment). Enable customers and staff to:
+The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
 
-- Capture/upload vehicle images at pick-up and return
-- Detect and compare damages between pick-up and return
-- Estimate severity and cost of damages
-- Display results in a dashboard or report
-- Integrate with 3rd party systems via API
+## Expanding the ESLint configuration
 
-**Example Workflow:**
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-1. Customer picks up a car, takes photos via the app.
-2. On return, new photos are taken.
-3. The system compares images, highlights new damages, and estimates repair costs.
-4. A summary report is shown in the UI and available via API.
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
----
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-## 📦 Deliverables
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
 
-- Deployed Service URL: Public link
-- UI: Web or mobile interface for image upload, damage detection, and report display
-- API: REST or GraphQL endpoint for 3rd party integration
-- README: Setup and usage instructions
-  
----
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-## 🏆 Selection Criteria
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-- Functionality & Stability: Does the project meet the core requirements? Are all main features working correctly without crashes or bugs?
-- Code Quality & Structure: Clean, modular, readable code. Proper use of version control, comments, and naming conventions.
-- Technical Implementation & Innovation: Appropriate choice of tech stack, API integrations, and efficient logic. AI integration.
-- Business Alignment: Does the solution address Aspire’s business case ?
-- UI/UX & Presentation: User interface quality, accessibility, and overall user experience.
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
 
----
-
-## ☁️ Deployment Requirements
-
-- For webapp, you are free to deploy anywhere: [Vercel](https://vercel.com/), [Netlify](https://www.netlify.com/), [Render](https://render.com/), [Google Cloud Run](https://cloud.google.com/run), [Hugging Face Spaces](https://huggingface.co/spaces), etc.
-- For mobile apps, if cloud deployment is not possible, share the APK or Expo link
-
----
-
-## 💎 Bonus Points
-
-- Testing: Automated tests + instructions to run them
-- Documentation: API docs (Swagger/OpenAPI/GraphQL)
-- CI/CD: Pipeline for automated deployment
-- Dockerfile
-
----
-
-## 🛠️ Resources
-
-### Deployment Free Resources
-
-- [Vercel](https://vercel.com/) — Web frontend
-- [Netlify](https://www.netlify.com/) — Web frontend
-- [Render](https://render.com/) — Web or backend
-- [Google Cloud Run](https://cloud.google.com/run) — Backend containers
-- [Expo](https://expo.dev/) — React Native mobile apps
-
-### AI Models / LLMS
-
-- You are free to use any free/open-source models, libraries, or APIs.
-- You may host your own solution or use a publicly available API, whatever works best for your prototype.
-- The goal is a working, reproducible prototype. Accuracy and cleverness will be evaluated, but you don’t need a production-level solution.
-
----
-
-## 📝 Pro Tips / Implementation Notes
-
-- Focus first on business requirements and core functionality. A working prototype is better than a fancy but incomplete solution.
-- You can store images however it makes sense (in memory, temp files, cloud storage, etc.)
-- Show results clearly in the UI: side-by-side images, highlights, and summary reports.
-- Prioritize clean, modular code and reproducibility for easy evaluation.
-- You may combine multiple tools to detect, score, and summarize damages.
-
----
-
-## 📬 Submission Guide
-
-- Fork the repo to your own GitHub repository
-- Commit changes regularly and push all code to your repo
-- Deploy your solution to a cloud provider (make sure the URL is public)
-- Submit your solution [here](https://tally.so/r/VLEkQv)
-  
----
-
-
-> 🏁 **Good luck!** Focus on a **working prototype**, clear UI, and AI-powered inspection summary 🚀.
