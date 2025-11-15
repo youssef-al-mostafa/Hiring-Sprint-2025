@@ -132,7 +132,7 @@ function App() {
               <SimpleGrid columns={{ base: 1, lg: 2 }} gap={6} mb={8}>
                 <Box>
                   <Text fontSize="sm" fontWeight="semibold" mb={3} color="gray.700">
-                    Pickup Inspection
+                    Pickup Inspection ({result.pickupDamage.predictions.length} damages)
                   </Text>
                   <AnnotatedImage
                     imageFile={pickupImage}
@@ -141,12 +141,12 @@ function App() {
                 </Box>
                 <Box>
                   <Text fontSize="sm" fontWeight="semibold" mb={3} color="gray.700">
-                    Return Inspection (New Damages Highlighted)
+                    Return Inspection ({result.returnDamage.predictions.length} damages, {result.newDamage.length} new)
                   </Text>
                   <AnnotatedImage
                     imageFile={returnImage}
-                    predictions={result.newDamage}
-                    highlightNew={true}
+                    predictions={result.returnDamage.predictions}
+                    highlightNew={false}
                   />
                 </Box>
               </SimpleGrid>

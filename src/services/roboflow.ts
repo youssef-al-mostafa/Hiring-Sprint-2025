@@ -63,10 +63,16 @@ export class RoboflowService {
     returnDamage: DamageDetectionResult;
     newDamage: DamageDetectionResult['predictions'];
   }> {
+    console.log('🔍 Analyzing pickup image:', pickupImage.name);
+    console.log('🔍 Analyzing return image:', returnImage.name);
+
     const [pickupResult, returnResult] = await Promise.all([
       this.detectDamage(pickupImage),
       this.detectDamage(returnImage),
     ]);
+
+    console.log('📊 Pickup results:', pickupResult.predictions.length, 'damages');
+    console.log('📊 Return results:', returnResult.predictions.length, 'damages');
 
     const newDamage = returnResult.predictions.filter(returnPred => {
       const existsInPickup = pickupResult.predictions.some(
@@ -77,6 +83,8 @@ export class RoboflowService {
       );
       return !existsInPickup;
     });
+
+    console.log('🆕 New damages detected:', newDamage.length);
 
     return {
       pickupDamage: pickupResult,
