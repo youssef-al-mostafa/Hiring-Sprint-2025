@@ -127,28 +127,6 @@ function App() {
 
           {result && pickupImage && returnImage && !loading && (
             <Box bg="white" p={8} borderRadius="xl" boxShadow="sm">
-              <Heading size="lg" mb={6}>Analysis Results</Heading>
-
-              <SimpleGrid columns={{ base: 1, md: 3 }} gap={6} mb={8}>
-                <Box textAlign="center" p={4} bg="blue.50" borderRadius="lg">
-                  <Text fontSize="sm" color="gray.600" mb={1}>Pickup Damages</Text>
-                  <Text fontSize="3xl" fontWeight="bold" color="blue.600">
-                    {result.pickupDamage.predictions.length}
-                  </Text>
-                </Box>
-                <Box textAlign="center" p={4} bg="orange.50" borderRadius="lg">
-                  <Text fontSize="sm" color="gray.600" mb={1}>Return Damages</Text>
-                  <Text fontSize="3xl" fontWeight="bold" color="orange.600">
-                    {result.returnDamage.predictions.length}
-                  </Text>
-                </Box>
-                <Box textAlign="center" p={4} bg="red.50" borderRadius="lg">
-                  <Text fontSize="sm" color="gray.600" mb={1}>New Damages</Text>
-                  <Text fontSize="3xl" fontWeight="bold" color="red.600">
-                    {result.newDamage.length}
-                  </Text>
-                </Box>
-              </SimpleGrid>
 
               <Heading size="md" mb={4}>Visual Damage Detection</Heading>
               <SimpleGrid columns={{ base: 1, lg: 2 }} gap={6} mb={8}>
