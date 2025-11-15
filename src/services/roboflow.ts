@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { RoboflowResponse, DamageDetectionResult } from '../types/roboflow';
+import type { DamageDetectionResult } from '../types/roboflow';
 
 const API_KEY = import.meta.env.VITE_ROBOFLOW_API_KEY;
 const MODEL = import.meta.env.VITE_ROBOFLOW_MODEL;

@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { useEffect, useRef } from 'react';
-import { RoboflowPrediction } from '../types/roboflow';
+import type { RoboflowPrediction } from '../types/roboflow';
 
 interface AnnotatedImageProps {
   imageFile: File;
