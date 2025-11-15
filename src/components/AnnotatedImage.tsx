@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { Box } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
 import type { RoboflowPrediction } from '../types/roboflow';
@@ -22,7 +23,7 @@ export default function AnnotatedImage({ imageFile, predictions, highlightNew = 
     setImageLoaded(false);
 
     const handleLoad = () => {
-      console.log('✅ Image loaded:', imageFile.name, 'Size:', img.naturalWidth, 'x', img.naturalHeight);
+      //console.log('Image loaded:', imageFile.name, 'Size:', img.naturalWidth, 'x', img.naturalHeight);
       setImageLoaded(true);
     };
 
@@ -41,7 +42,7 @@ export default function AnnotatedImage({ imageFile, predictions, highlightNew = 
 
   useEffect(() => {
     if (!imageLoaded || !canvasRef.current || !imageRef.current) {
-      console.log('⏳ Waiting for image to load...', { imageLoaded, canvas: !!canvasRef.current, image: !!imageRef.current });
+      //console.log('Waiting for image to load...', { imageLoaded, canvas: !!canvasRef.current, image: !!imageRef.current });
       return;
     }
 
@@ -50,11 +51,11 @@ export default function AnnotatedImage({ imageFile, predictions, highlightNew = 
     const img = imageRef.current;
 
     if (!ctx || !img.naturalWidth || !img.naturalHeight) {
-      console.log('❌ Canvas context or image dimensions not ready');
+      //console.log('Canvas context or image dimensions not ready');
       return;
     }
 
-    console.log('🎨 Drawing', predictions.length, 'predictions on canvas');
+    //console.log('Drawing', predictions.length, 'predictions on canvas');
 
     canvas.width = img.naturalWidth;
     canvas.height = img.naturalHeight;
@@ -62,11 +63,11 @@ export default function AnnotatedImage({ imageFile, predictions, highlightNew = 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (predictions.length === 0) {
-      console.log('📭 No predictions to draw');
+      //console.log('No predictions to draw');
       return;
     }
 
-    predictions.forEach((prediction, index) => {
+    predictions.forEach((prediction) => {
       const color = highlightNew ? '#EF4444' : '#3B82F6';
 
       ctx.strokeStyle = color;
@@ -76,7 +77,7 @@ export default function AnnotatedImage({ imageFile, predictions, highlightNew = 
       const x = prediction.x - prediction.width / 2;
       const y = prediction.y - prediction.height / 2;
 
-      console.log(`Drawing box ${index + 1}:`, { x, y, width: prediction.width, height: prediction.height, class: prediction.class });
+      //console.log(`Drawing box ${index + 1}:`, { x, y, width: prediction.width, height: prediction.height, class: prediction.class });
 
       ctx.fillRect(x, y, prediction.width, prediction.height);
       ctx.strokeRect(x, y, prediction.width, prediction.height);
@@ -91,7 +92,7 @@ export default function AnnotatedImage({ imageFile, predictions, highlightNew = 
       ctx.fillText(label, x + 5, y - 7);
     });
 
-    console.log('✅ Canvas drawing complete');
+    //console.log('Canvas drawing complete');
   }, [imageLoaded, predictions, highlightNew, imageFile]);
 
   return (

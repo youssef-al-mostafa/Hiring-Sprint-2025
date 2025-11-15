@@ -4,12 +4,14 @@ import { Provider } from './components/ui/provider';
 import ImageUpload from './components/ImageUpload';
 import AnnotatedImage from './components/AnnotatedImage';
 import { RoboflowService } from './services/roboflow';
+import { ImageSimilarity } from './utils/imageSimilarity';
 import type { DamageDetectionResult, RoboflowPrediction } from './types/roboflow';
 
 interface AnalysisResult {
   pickupDamage: DamageDetectionResult;
   returnDamage: DamageDetectionResult;
   newDamage: RoboflowPrediction[];
+  similarityScore: number;
 }
 
 function App() {
@@ -29,8 +31,15 @@ function App() {
     setResult(null);
 
     try {
-      const analysis = await RoboflowService.compareDamage(pickupImage, returnImage);
-      setResult(analysis);
+      const [analysis, similarityScore] = await Promise.all([
+        RoboflowService.compareDamage(pickupImage, returnImage),
+        ImageSimilarity.compareSimilarity(pickupImage, returnImage),
+      ]);
+
+      setResult({
+        ...analysis,
+        similarityScore,
+      });
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to analyze images';
       setError(message);
@@ -127,6 +136,34 @@ function App() {
 
           {result && pickupImage && returnImage && !loading && (
             <Box bg="white" p={8} borderRadius="xl" boxShadow="sm">
+              {ImageSimilarity.getSimilarityLevel(result.similarityScore) === 'low' && (
+                <Alert.Root status="warning" mb={6}>
+                  <Alert.Title>Vehicle Verification Warning</Alert.Title>
+                  <Alert.Description>
+                    {ImageSimilarity.getSimilarityMessage(result.similarityScore)} (Similarity: {(result.similarityScore * 100).toFixed(0)}%)
+                  </Alert.Description>
+                </Alert.Root>
+              )}
+
+              {ImageSimilarity.getSimilarityLevel(result.similarityScore) === 'medium' && (
+                <Alert.Root status="info" mb={6}>
+                  <Alert.Title>Manual Verification Required</Alert.Title>
+                  <Alert.Description>
+                    {ImageSimilarity.getSimilarityMessage(result.similarityScore)} (Similarity: {(result.similarityScore * 100).toFixed(0)}%)
+                  </Alert.Description>
+                </Alert.Root>
+              )}
+
+              {ImageSimilarity.getSimilarityLevel(result.similarityScore) === 'high' && (
+                <Box mb={6} p={4} bg="green.50" borderRadius="md" borderLeft="4px solid" borderColor="green.500">
+                  <Text fontSize="sm" fontWeight="bold" color="green.800" mb={1}>
+                    Vehicle Verified
+                  </Text>
+                  <Text fontSize="sm" color="gray.700">
+                    {ImageSimilarity.getSimilarityMessage(result.similarityScore)} (Similarity: {(result.similarityScore * 100).toFixed(0)}%)
+                  </Text>
+                </Box>
+              )}
 
               <Heading size="md" mb={4}>Visual Damage Detection</Heading>
               <SimpleGrid columns={{ base: 1, lg: 2 }} gap={6} mb={8}>
