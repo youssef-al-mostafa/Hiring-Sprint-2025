@@ -5,7 +5,7 @@ const API_KEY = import.meta.env.VITE_ROBOFLOW_API_KEY;
 const MODEL = import.meta.env.VITE_ROBOFLOW_MODEL;
 const VERSION = import.meta.env.VITE_ROBOFLOW_VERSION;
 
-const BASE_URL = 'https://detect.roboflow.com';
+const BASE_URL = 'https://serverless.roboflow.com';
 
 export class RoboflowService {
   private static toBase64(file: File): Promise<string> {
@@ -28,15 +28,17 @@ export class RoboflowService {
     try {
       const base64Image = await this.toBase64(imageFile);
 
-      const response = await axios.post<RoboflowResponse>(
-        `${BASE_URL}/${MODEL}/${VERSION}?api_key=${API_KEY}`,
-        base64Image,
-        {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-        }
-      );
+      const response = await axios({
+        method: 'POST',
+        url: `${BASE_URL}/${MODEL}/${VERSION}`,
+        params: {
+          api_key: API_KEY,
+        },
+        data: base64Image,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      });
 
       return {
         predictions: response.data.predictions,

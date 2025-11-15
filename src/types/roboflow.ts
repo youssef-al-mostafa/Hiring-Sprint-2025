@@ -1,3 +1,8 @@
+export interface Point {
+  x: number;
+  y: number;
+}
+
 export interface RoboflowPrediction {
   x: number;
   y: number;
@@ -6,9 +11,12 @@ export interface RoboflowPrediction {
   confidence: number;
   class: string;
   class_id: number;
+  points?: Point[];
+  detection_id?: string;
 }
 
 export interface RoboflowResponse {
+  inference_id: string;
   time: number;
   image: {
     width: number;
